@@ -1,0 +1,8 @@
+services:
+  postgresql:
+    container_name: postgresql
+    image: docker.io/bitnami/postgresql
+    environment:
+      - POSTGRESQL_PASSWORD=password123
+    ports:
+      - "5432:5432"

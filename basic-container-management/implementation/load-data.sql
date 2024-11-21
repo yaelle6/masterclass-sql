@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS foo;
+CREATE TABLE foo(bar INTEGER);
+INSERT INTO foo SELECT * FROM generate_series(1, 10000000);

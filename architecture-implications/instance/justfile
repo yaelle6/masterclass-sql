@@ -1,0 +1,13 @@
+#set dotenv-filename := env.just
+
+start-instance:
+    docker compose up --detach --renew-anon-volumes --force-recreate --wait
+
+stop-instance:
+    docker compose down
+
+restart-instance:
+    docker compose restart
+
+create-dataset:
+    psql --dbname $(CONNECTION_STRING) --file create-dataset.sql
