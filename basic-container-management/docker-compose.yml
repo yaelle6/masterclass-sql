@@ -1,8 +1,23 @@
 services:
   postgresql:
     container_name: postgresql
-    image: docker.io/bitnami/postgresql
+    image: docker.io/bitnami/postgresql:17
     environment:
-      - POSTGRESQL_PASSWORD=password123
+      - POSTGRESQL_USERNAME=${POSTGRESQL_USERNAME}
+      - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
+      - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
+    healthcheck:
+      test: "psql postgresql://${POSTGRESQL_USERNAME}:${POSTGRESQL_PASSWORD}@localhost:${POSTGRESQL_INTERNAL_PORT}/${POSTGRESQL_DATABASE}"
+      timeout: 20s
+      retries: 1
+    volumes:
+#      - chemin du fichier du projet : chemin du fichier dans le container
+      - ./config:/bitnami/postgresql/conf
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: '512m'
     ports:
-      - "5432:5432"
+      # port exterieur/port interne
+      - "1234:5432"
